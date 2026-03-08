@@ -26,6 +26,7 @@ public class Company {
         this.jobs = jobs;
     }
     //private List<Review> reviews;
+    //Reviews will be added later on for the project purpose 
 
     public Company() {
     }
