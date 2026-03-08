@@ -15,19 +15,26 @@ public class CompanyController {
         this.companyService = companyService;
     }
 
-    @GetMapping()
-    public List<Company> getAllCompanies(){
-        return companyService.getAllCompanies();
+    @GetMapping
+    public ResponseEntity<List<Company>> getAllCompanies(){
+        return new ResponseEntity<>(companyService.getAllCompanies(),HttpStatus.OK);
     }
 
-    @PutMapping("/companies/{id}")
-    public ResponseEntity<String> updateCompany(@PathVariable Long id,@RequestBody Company company){
-        boolean updated = companyService.updatedCompany(company, id);
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updateCompany(@RequestBody Company company , @PathVariable Long id){
+        boolean updated = companyService.updateCompany(company,id);
         if(updated){
-            return new ResponseEntity<>("Company Updated Successfuly" , HttpStatus.OK);
-        }
-        else{
-            return new ResponseEntity<>("Company Not Found! with id: "+id+".",HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Company Updated Successfully",HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>("Company not found",HttpStatus.NOT_FOUND);
         }
     }
+
+    @PostMapping
+    public ResponseEntity<String> createCompany(@RequestBody Company company){
+        companyService.createCompany(company);
+        return new ResponseEntity<>("Company Created Successfully",HttpStatus.CREATED);
+    }
+
+
 }

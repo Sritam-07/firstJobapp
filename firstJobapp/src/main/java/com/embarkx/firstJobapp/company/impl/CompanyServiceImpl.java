@@ -17,25 +17,30 @@ public class CompanyServiceImpl implements CompanyService {
     public CompanyServiceImpl(CompanyRepository companyRepository){
         this.companyRepository=companyRepository;
     }
+
+
     @Override
     public List<Company> getAllCompanies() {
         return companyRepository.findAll();
     }
 
     @Override
-    public boolean updatedCompany(Company company, long id) {
-        Optional<Company> companyOptional = companyRepository.findById(id);
-        if(companyOptional.isPresent()){
-            Company companyTOUpdate = companyOptional.get();
-            companyTOUpdate.setDescription(company.getDescription());
-            companyTOUpdate.setJobs(company.getJobs());
-            companyTOUpdate.setName(company.getName());
-            companyRepository.save(companyTOUpdate);
+    public boolean updateCompany(Company company, Long id) {
+        Optional<Company> updateCompany = companyRepository.findById(id);
+        if(updateCompany.isPresent()){
+           Company updateToCompany = updateCompany.get();
+           updateToCompany.setName(company.getName());
+           updateToCompany.setDescription(company.getDescription());
+           updateToCompany.setJobs(company.getJobs());
+           companyRepository.save(updateToCompany);
             return true;
         }
-        else{
-            return false;
-        }
+        return false;
+    }
+
+    @Override
+    public void createCompany(Company company) {
+        companyRepository.save(company);
     }
 
 

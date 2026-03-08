@@ -1,6 +1,8 @@
 package com.embarkx.firstJobapp.company;
 
 import com.embarkx.firstJobapp.job.Job;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -13,7 +15,8 @@ public class Company {
     private String name;
     private String description;
 
-    @OneToMany
+    @OneToMany(mappedBy = "company",fetch=FetchType.EAGER)
+    @JsonManagedReference
     private List<Job> jobs;
 
     public Company(Long id, String name, String description, List<Job> jobs) {
